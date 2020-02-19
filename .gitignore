@@ -1,0 +1,5 @@
+# Ignore all to ignore binary files
+*
+
+# Unignore files with extensions
+!*.*
