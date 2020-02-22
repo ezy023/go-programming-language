@@ -1,0 +1,6 @@
+* Exercise 4.12
+** Description
+web comic xkcd has a JSON interface. You can request ~https://xkcd.com/571/info.0.json~ to get a detailed description of that comic.
+Download each URL (once!) and build an offline index. Write a tool ~xkcd~ that, using this index, prints the URL and transcript of each comic that matches a query term provided on the command line.
+** Notes
+*** To fetch the current comic you can request ~https://xkcd.com/info.0.json~
