@@ -38,7 +38,7 @@ func (s *IntSet) UnionWith(t *IntSet) {
 	}
 }
 
-// Exercises
+// Exercises TODO
 // func (s *IntSet) Len() int      {}
 // func (s *IntSet) Remove(x int)  {}
 // func (s *IntSet) Clear()        {}
@@ -47,6 +47,7 @@ func (s *IntSet) UnionWith(t *IntSet) {
 // func (s *IntSet) IntersectWith(t *IntSet) {}
 // func (s *IntSet) DifferenceWith(t *IntSet) {}
 // func (s *IntSet) SymmetricDifference(t *IntSet) {}
+// func (s *IntSet) Elems() []int {}
 
 func (s *IntSet) String() string {
 	var buf bytes.Buffer
