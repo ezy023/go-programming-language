@@ -6,27 +6,35 @@ import (
 	"log"
 	"net"
 	"strings"
+	"sync"
 	"time"
 )
 
-func echo(c net.Conn, shout string, delay time.Duration, ch chan struct{}) {
+func echo(c net.Conn, shout string, delay time.Duration) {
 	fmt.Fprintln(c, "\t", strings.ToUpper(shout))
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", shout)
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", strings.ToLower(shout))
-	ch <- struct{}{}
 }
 
 func handleConn(c net.Conn) {
-	ch := make(chan struct{})
 	input := bufio.NewScanner(c)
+	var wg sync.WaitGroup
 	for input.Scan() {
-		go echo(c, input.Text(), 1*time.Second, ch)
+		wg.Add(1)
+		go func(text string) {
+			defer wg.Done()
+			echo(c, text, 1*time.Second)
+		}(input.Text())
 	}
-	<-ch
-	// NOTE: ignoring potential errors from input.Err()
-	c.Close()
+
+	wg.Wait()
+	if tc, ok := c.(*net.TCPConn); ok {
+		tc.CloseWrite()
+	} else {
+		c.Close()
+	}
 }
 
 func main() {
